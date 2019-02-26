@@ -1,4 +1,3 @@
-# %matplotlib inline
 import matplotlib.pyplot as plt
 from matplotlib.image import imread
 import tensorflow as tf
