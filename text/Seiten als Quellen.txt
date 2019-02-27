@@ -4,3 +4,5 @@ Tensorflow docu:
     https://www.tensorflow.org/versions/r1.12/api_docs/python/
 conventions of Building:
     https://stats.stackexchange.com/questions/181/how-to-choose-the-number-of-hidden-layers-and-nodes-in-a-feedforward-neural-netw
+general information:
+    https://www.youtube.com/watch?v=aircAruvnKk
