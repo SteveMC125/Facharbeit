@@ -7,4 +7,4 @@ conventions of Building:
 general information:
     https://www.youtube.com/watch?v=aircAruvnKk
     https://skymind.ai/wiki/neural-network
-    http://neuralnetworksanddeeplearning.com/chap1.html
+    http://neuralnetworksanddeeplearning.com
