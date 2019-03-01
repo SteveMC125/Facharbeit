@@ -17,7 +17,7 @@ model = tf.keras.models.Sequential([
     tf.keras.layers.Dense(nH3, name="third_hidden", activation=tf.nn.sigmoid),
     tf.keras.layers.Dense(nOut, name="output", activation=tf.nn.sigmoid)
 ])
-model.compile(tf.keras.optimizers.Adam(0.001), tf.keras.losses.categorical_crossentropy)
+model.compile(tf.keras.optimizers.Adam(0.001), tf.keras.losses.mean_squared_error)
 
 model.fit(XS, YS, epochs=20, steps_per_epoch=5)
 model.summary()
