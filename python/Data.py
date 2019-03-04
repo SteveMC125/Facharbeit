@@ -21,7 +21,7 @@ filenames = [path + "0-3.csv", path + "4-9.csv", path + "A-E.csv", path +
 
 nFiles = len(filenames)
 
-XS = []
+xs = []
 labelList = []
 
 print("start laoding")
@@ -34,19 +34,22 @@ for file in filenames:
         columns = line.split(",")
         features = columns[:-1]
         label = columns[-1]
-        XS.append(features)
+        xs.append(features)
         labelList.append(int(label))
     opened.close()
 print("done loading")
 
-for i in range(len(XS)):
-    for j in range(len(XS[i])):
-        XS[i][j] = int(XS[i][j])
+for i in range(len(xs)):
+    for j in range(len(xs[i])):
+        xs[i][j] = int(xs[i][j])
 
 YS = tf.one_hot(labelList, 36)
-# tf.concat(0, XS)
+XS = tf.concat(xs, 0)
 
-with tf.python_io.TFRecordWriter("test.tfrecord") as writer:
-    writer.write(YS.SerializeToString())
+# with tf.python_io.TFRecordWriter("test.tfrecord") as writer:
+#     writer.write(YS.SerializeToString())
 
 print("done loading data")
+
+print(YS)
+print(XS)
