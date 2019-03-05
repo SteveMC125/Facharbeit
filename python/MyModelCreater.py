@@ -1,5 +1,5 @@
 import tensorflow as tf
-from Data import XS, YS
+from Data import DATASET
 import numpy as np
 
 print("start creating model")
@@ -19,7 +19,7 @@ model = tf.keras.models.Sequential([
 ])
 model.compile(tf.keras.optimizers.Adam(0.001), tf.keras.losses.mean_squared_error)
 
-model.fit(XS, YS, epochs=20, steps_per_epoch=5)
+model.fit(DATASET, epochs=3, steps_per_epoch=30)
 model.summary()
 
 model.save("MyModel.h5")
