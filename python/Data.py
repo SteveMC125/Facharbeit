@@ -25,16 +25,12 @@ XS = []
 labelList = []
 
 for file in filenames:
-    opened = open(file)
-    for i in range(file_len(file)):
-        line = opened.readline()
-        line = line[:-1]
-        columns = line.split(",")
-        features = columns[:-1]
-        label = columns[-1]
-        XS.append(features)
-        labelList.append(int(label))
-    opened.close()
+    with open(file) as opened:
+        lines = opened.readlines()
+        for i in range(len(lines)):
+            columns = lines[i].split(",")
+            labelList.append(int(columns[-1]))
+            XS.append(columns[:-1])
 
 for i in range(len(XS)):
     for j in range(len(XS[i])):

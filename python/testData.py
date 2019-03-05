@@ -3,22 +3,15 @@ import numpy
 
 # READEING TEST IMAGES
 
-
-testImg = open("D:\\Bilder\\Tensorflow\\Data\\testData.csv", "r")
-testImgString = testImg.readlines()
-value2 = numpy.zeros((7, 4096), dtype=int)
-s = 0
-for i in range(7):
-    for j in range(4096):
-        a = testImgString[i][s]
-        if a.isdigit():
-            tmp = int(a)
-            value2[i][j] = tmp
-        s += 3
-        if s == len(testImgString[i]):
-            s -= 1
-        elif s > len(testImgString[i]):
-            break
+with open("D:\\Bilder\\Tensorflow\\Data\\testData.csv", "r") as file:
+    lines = file.readlines()
+    values = numpy.zeros((7, 4096), dtype=int)
     s = 0
-TESTIMAGES = tf.constant(value2)
-testImg.close()
+    for i in range(len(lines)):
+        for j in range(len(lines[i])):
+            a = lines[i][j]
+            if a.isdigit():
+                values[i][s] = int(a)
+                s += 1
+        s = 0
+    TESTIMAGES = tf.constant(values)
