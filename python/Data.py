@@ -1,5 +1,6 @@
 import tensorflow as tf
 import numpy
+import random
 
 print("laoding training data...")
 
@@ -21,25 +22,28 @@ filenames = [path + "0-3.csv", path + "4-9.csv", path + "A-E.csv", path +
 
 nFiles = len(filenames)
 
-XS = []
-labelList = []
-
+training_data = []
+print("start getting data")
 for file in filenames:
     with open(file) as opened:
         lines = opened.readlines()
         for i in range(len(lines)):
             columns = lines[i].split(",")
-            labelList.append(int(columns[-1]))
-            XS.append(columns[:-1])
+            tmplabel = int(columns[-1])
+            tmpfeature = []
+            for test in columns[:-1]:
+                tmpfeature.append(int(test))
+        training_data.append([tmpfeature, tmplabel])
+print("got data")
 
-for i in range(len(XS)):
-    for j in range(len(XS[i])):
-        XS[i][j] = int(XS[i][j])
-YS = tf.one_hot(labelList, 36)
+# yTrain = tf.one_hot(labelList, 36)
+# print("convert x to numpy array")
+# xTrain = numpy.array(xs_all).reshape(-1, 4096)
+for sample in training_data[:10]:
+    print(sample[1])
+random.shuffle(training_data)
+for sample in training_data[:10]:
+    print(sample[1])
 
-DATASET = tf.data.Dataset.from_tensor_slices((XS, YS))
-DATASET = DATASET.shuffle(100)
-DATASET = DATASET.batch(50)
-DATASET = DATASET.repeat()
 
 print("done loading data")

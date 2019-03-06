@@ -1,5 +1,5 @@
 import tensorflow as tf
-from testData import TESTIMAGES
+from testData import VALUES
 import numpy as np
 
 
@@ -9,12 +9,13 @@ def saveToFile(content, path):
             txt = ""
             for j in range(len(content[i])):
                 txt = txt + str(content[i][j]) + ","
-            file.write(txt + "\n")
+            file.write(txt[:-1] + "\n")
 
 
 model = tf.keras.models.load_model("MyModel.h5")
 
-result = model.predict(TESTIMAGES, steps=1)
+result = model.predict(VALUES)
 
 saveToFile(result, "D:\\Bilder\\Tensorflow\\Data\\answerData2.txt")
-print(result[0])
+for i in range(len(result)):
+    print(np.argmax(result[i]))
