@@ -1,6 +1,5 @@
 import tensorflow as tf
-import numpy
-import random
+import numpy as np
 
 print("laoding training data...")
 
@@ -16,34 +15,53 @@ def file_len(fname):
 # READEING TRAIN DATA
 
 
+loaded_data = True
+dataPath = "D:\\Bilder\\Tensorflow\\Data\\training_data.npy"
+
 path = "D:\\Bilder\\Tensorflow\\Data\\MyTrainSet"
 filenames = [path + "0-3.csv", path + "4-9.csv", path + "A-E.csv", path +
              "F-J.csv", path + "K-O.csv", path + "P-T.csv", path + "U-Z.csv"]
 
-nFiles = len(filenames)
+if not loaded_data:
+    training_data = []
+    print("start getting data")
+    for file in filenames:
+        with open(file) as opened:
+            lines = opened.readlines()
+            for i in range(len(lines)):
+                columns = lines[i].split(",")
+                tmplabel = int(columns[-1])
+                tmpfeature = []
+                for test in columns[:-1]:
+                    tmpfeature.append(int(test))
+                training_data.append([tmpfeature, tmplabel])
+    np.save(dataPath, training_data)
+else:
+    print("load saved Array")
+    training_data = np.load(dataPath)
 
-training_data = []
-print("start getting data")
-for file in filenames:
-    with open(file) as opened:
-        lines = opened.readlines()
-        for i in range(len(lines)):
-            columns = lines[i].split(",")
-            tmplabel = int(columns[-1])
-            tmpfeature = []
-            for test in columns[:-1]:
-                tmpfeature.append(int(test))
-        training_data.append([tmpfeature, tmplabel])
-print("got data")
+# print(len(training_data))
+#
+# print("unshuffled:")
+# for sample in training_data[:10]:
+#     print(sample[1])
+print("shuffle")
+np.random.shuffle(training_data)
 
-# yTrain = tf.one_hot(labelList, 36)
-# print("convert x to numpy array")
-# xTrain = numpy.array(xs_all).reshape(-1, 4096)
-for sample in training_data[:10]:
-    print(sample[1])
-random.shuffle(training_data)
-for sample in training_data[:10]:
-    print(sample[1])
-
+# print("shuffled:")
+# for sample in training_data[:10]:
+#     print(sample[1])
+print("unpacking data")
+xTrain = []
+ys = []
+for x, y in training_data:
+    xTrain.append(x)
+    ys.append(y)
+print("casting xTrain")
+xTrain = np.array(xTrain).reshape(-1, 4096)
+n_labels = 36
+targets = np.array(ys)
+yTrain = np.zeros((targets.shape[0], n_labels))
+yTrain[np.arange(targets.shape[0]), targets] = 1
 
 print("done loading data")
