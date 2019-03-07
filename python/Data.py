@@ -63,4 +63,7 @@ targets = np.array(ys)
 yTrain = np.zeros((targets.shape[0], n_labels))
 yTrain[np.arange(targets.shape[0]), targets] = 1
 
+np.save("xTrain.npy", xTrain)
+np.save("yTrain.npy", yTrain)
+
 print("done loading data")
