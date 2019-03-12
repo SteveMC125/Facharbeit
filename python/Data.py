@@ -1,52 +1,80 @@
-import tensorflow as tf
-import numpy
+import numpy as np
+import random
+import cv2
+import os
+
 
 print("laoding training data...")
 
 # UTIL FUNCTION
 
 
-def file_len(fname):
-    with open(fname) as f:
-        for i, l in enumerate(f):
-            pass
-    return i + 1
+def readAndResize(filepath, imSize=64):
+    # read image as grayscale
+    img_array = cv2.imread(filepath, cv2.IMREAD_GRAYSCALE)
+    # return resized image
+    return cv2.resize(img_array, (imSize, imSize))
+
 
 # READEING TRAIN DATA
 
+# init vars for directory for images
+DATADIR = "D:/Bilder/Tensorflow/Data/English/Fnt"
+CATEGORIES = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G",
+              "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+IMG_SIZE = 64
 
-path = "D:\\Bilder\\Tensorflow\\Data\\MyTrainSet"
-filenames = [path + "0-3.csv", path + "4-9.csv", path + "A-E.csv", path +
-             "F-J.csv", path + "K-O.csv", path + "P-T.csv", path + "U-Z.csv"]
+training_data = []
 
-nFiles = len(filenames)
 
-XS = []
-labelList = []
+def makeData():
+    i = 1
+    # iterate over the categories of images
+    for category in CATEGORIES:
+        # create path to category and label for category
+        path = os.path.join(DATADIR, category)
+        class_num = CATEGORIES.index(category)
+        # iterate over every image in the categorydirectory
+        for img in os.listdir(path):
+            try:
+                print("Image {} of {}".format(i, 36576))
+                # read and resize the image
+                img_array = readAndResize(os.path.join(path, img))
+                # put image and label in array
+                training_data.append([img_array, class_num])
+                i = i + 1
+            except Exception as e:
+                pass
 
-print("start laoding")
+    print("shuffle data")
+    # shuffle the Data for better training result
+    random.shuffle(training_data)
 
-for file in filenames:
-    opened = open(file)
-    for i in range(file_len(file)):
-        line = opened.readline()
-        line = line[:-1]
-        columns = line.split(",")
-        features = columns[:-1]
-        label = columns[-1]
-        XS.append(features)
-        labelList.append(int(label))
-    opened.close()
-print("done loading")
+    # create arrays for images / label
+    X = []
+    y = []
 
-for i in range(len(XS)):
-    for j in range(len(XS[i])):
-        XS[i][j] = int(XS[i][j])
+    print("unpack data")
+    # unpack data
+    for features, label in training_data:
+        X.append(features)
+        y.append(label)
 
-YS = tf.one_hot(labelList, 36)
-# tf.concat(0, XS)
+    print("resize imagedata array")
+    # convert and resize image array (Keras/Tensorflow needs special format of images)
+    X = np.array(X).reshape(-1, IMG_SIZE, IMG_SIZE)
 
-with tf.python_io.TFRecordWriter("test.tfrecord") as writer:
-    writer.write(YS.SerializeToString())
+    print("normalize images")
+    # normalize images
+    X = X/255.0
+
+    print("save images and labels")
+    # save images and labels
+    np.save("X.npy", X)
+    np.save("y.npy", y)
+
+
+makeData()
+
 
 print("done loading data")
