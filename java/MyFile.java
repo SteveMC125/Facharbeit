@@ -38,6 +38,7 @@ public class MyFile {
 		return text;
 	}
 
+	// writes given string to File
 	public MyFile write(String str) {
 		try {
 			writer.write(str);
