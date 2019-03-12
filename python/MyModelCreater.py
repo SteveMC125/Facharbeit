@@ -1,24 +1,24 @@
-# import everything needed
-import tensorflow as tf
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Flatten
 from tensorflow.keras.callbacks import TensorBoard
+from tensorflow.keras.layers import Dense, Flatten
+from tensorflow.keras.models import Sequential
+from tensorflow.nn import relu, sigmoid
 import numpy as np
 import time
+import os
 
 print("start creating model")
 
 print("load training data")
 # load data, these is the prepared dataset
-xTrain = np.load("xTrain.npy")
-yTrain = np.load("yTrain.npy")
+xTrain = np.load("X.npy")
+yTrain = np.load("y.npy")
 
 # set name and directory for Tensorboard
 name = "(64,64),128,512,36NN_relu..sigmoid,adam,SparseCatCross_{}".format(int(time.time()))
-logDir = "D:\\Bilder\\Tensorflow\\logsTest\\"
+logDir = "D:\\Bilder\\Tensorflow\\logs"
 
 # init Tensorboard callback
-tensorboard = TensorBoard(log_dir=logDir + "{}".format(name))
+tensorboard = TensorBoard(log_dir=os.path.join(logDir, "{}".format(name)))
 
 # init var for layersizes
 ImageSize = 64
@@ -31,9 +31,9 @@ print("creating model")
 # create model as a Sequential model
 model = Sequential([
     Flatten(name="flattening", input_shape=(ImageSize, ImageSize)),
-    Dense(nH1, name="first_hidden", activation=tf.nn.relu),
-    Dense(nH2, name="second_hidden", activation=tf.nn.relu),
-    Dense(nOut, name="output", activation=tf.nn.sigmoid)
+    Dense(nH1, name="first_hidden", activation=relu),
+    Dense(nH2, name="second_hidden", activation=relu),
+    Dense(nOut, name="output", activation=sigmoid)
 ])
 
 print("compile model")
