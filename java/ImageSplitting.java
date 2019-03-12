@@ -7,6 +7,7 @@ public class ImageSplitting {
 	private static int Top, Height, Width, Spacer, Start, End;
 	private BufferedImage image;
 
+	// sets all variables
 	public ImageSplitting(String path) {
 		Top = 20;
 		Height = 81;
@@ -17,9 +18,10 @@ public class ImageSplitting {
 		image = ImageLoader.loadImage(path);
 	}
 
-	public String[][] split() {
+	// cuts image at given values and returns subimages
+	public BufferedImage[] split() {
 		int x = Start;
-		String[][] out = new String[7][Main.IMGSIZE * Main.IMGSIZE];
+		BufferedImage[] out = new BufferedImage[7];
 
 		images.add(image.getSubimage(x, Top, Width, Height)); // crop image
 		x += Width + Spacer;
@@ -46,7 +48,7 @@ public class ImageSplitting {
 			int i = 0;
 			for (BufferedImage im : images) {
 				BufferedImage img = ImageLoader.resize(im, Main.IMGSIZE, Main.IMGSIZE); // resize sliced image
-				out[i] = ImageLoader.convertToArray(ImageLoader.toArrayString(img)); // save sliced image to array
+				out[i] = img; // save sliced image to array
 				i++;
 			}
 

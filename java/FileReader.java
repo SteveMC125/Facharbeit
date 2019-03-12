@@ -29,9 +29,9 @@ public class FileReader {
 		}
 	}
 
+	// reads out on line of the File and returns it
 	public String read() {
 		String out = null;
-
 		try {
 			out = reader.readLine();
 		} catch (IOException e) {

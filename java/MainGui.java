@@ -2,7 +2,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,9 +25,10 @@ public class MainGui extends JFrame {
 	private JScrollPane scroll;
 
 	public MainGui() {
-		// title / close operation
+		// title / close operation, icon
 		setTitle("Facharbeit Tensorflow");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setIconImage(new ImageIcon("D:/Bilder/Tensorflow/facharbeit Bilder/Tensorflow3.png").getImage());
 
 		// layout / size
 		setLayout(null);
@@ -52,8 +53,9 @@ public class MainGui extends JFrame {
 		setVisible(true);
 	}
 
+	// inits all components
 	private void initComponents() {
-		btnChoosing = new JButton("ChooseImage");
+		btnChoosing = new JButton("Choose Image");
 		btnChoosing.setBounds(366, 10, 208, 100);
 		btnChoosing.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnChoosing.addActionListener(new ActionListener() {
@@ -160,10 +162,12 @@ public class MainGui extends JFrame {
 
 	}
 
+	// adds string to Console
 	public void log(String str) {
 		Console.append(str + "\n");
 	}
 
+	// adds line to Console
 	public void changeSection() {
 		log("-----------------------------------------------------------------------------------");
 	}
@@ -218,5 +222,25 @@ public class MainGui extends JFrame {
 
 	public JScrollPane getScroll() {
 		return scroll;
+	}
+
+	public MainGui setChoosen(Boolean choosen) {
+		this.choosen = choosen;
+		return this;
+	}
+
+	public MainGui setSplit(Boolean split) {
+		this.split = split;
+		return this;
+	}
+
+	public MainGui setSaved(Boolean saved) {
+		this.saved = saved;
+		return this;
+	}
+
+	public MainGui setRunned(Boolean runned) {
+		this.runned = runned;
+		return this;
 	}
 }
