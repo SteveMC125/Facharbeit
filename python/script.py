@@ -20,8 +20,8 @@ def readAndResize(filepath, imSize=64):
 def prepare(filepath, imSize=64):
     # read and resize image
     new_array = readAndResize(filepath)
-    # resize image array and return this
-    return new_array.reshape(-1, imSize, imSize)
+    # resize and normalize image array and return this
+    return new_array.reshape(-1, imSize, imSize) / 255.0
 
 
 def saveToFile(preds, path="D:/Bilder/Tensorflow/Data/answerData.txt"):
@@ -45,6 +45,7 @@ def pred(imageDir="D:/Bilder/Tensorflow/Data/testImages"):
         predictions.append(model.predict([prepare(os.path.join(imageDir, img))]))
     # save predictions to file
     saveToFile(predictions)
+    print("saved predictions")
 
 
 # call prediction FUNCTION
